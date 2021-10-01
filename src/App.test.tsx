@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, fireEvent, waitFor, screen} from '@testing-library/react'
-import { ProductList } from './ProductList';
-import { ProductRecord } from './types';
+import { API, ProductRecord } from './types';
+import App from './App';
 
 const products:ProductRecord[] = [
     {
@@ -42,10 +42,29 @@ const products:ProductRecord[] = [
     }
 ]
 
-describe('<ProductList />', () => {
+const testAPI: API = {
+    getProductsList() {
+        return products as ProductRecord[];
+    },
+
+    getProductById(id: string) {
+        return products.find((product) => product.id === parseInt(id)) as ProductRecord;
+    }
+}
+
+describe('<App />', () => {
+    const app = render(<App api={testAPI} />);
+    const {getAllByRole, queryAllByRole} = app;
+    let liProducts = getAllByRole('listitem');
+
     it('ProductList should have 3 products after rendering', () => {
-        const {getAllByRole} = render(<ProductList products={products} />);
-        let li = getAllByRole('listitem');
-        expect(li.length).toEqual(3);
+        expect(liProducts.length).toEqual(3);
+    });
+
+    it('If you click on a product from the ProductList, you should only have this product displayed', () => {
+        fireEvent(liProducts[0], new MouseEvent('click'));
+        
+        let liProductsAfterClick = queryAllByRole('listitem');
+        expect(liProductsAfterClick.length).toEqual(0);
     });
 });
