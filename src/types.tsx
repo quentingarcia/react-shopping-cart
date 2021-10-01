@@ -10,3 +10,8 @@ export type ProductRecord = {
     description: string,
     stock: number
 }
+
+export type API = {
+    getProductsList: () => ProductRecord[],
+    getProductById: (id: string) => ProductRecord
+}
