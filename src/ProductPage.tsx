@@ -1,17 +1,19 @@
 import * as React from 'react';
-import generateData from 'data-generator-retail';
-import { ProductRecord } from './types';
-import { ProductList } from './ProductList';
+import { useParams } from 'react-router';
+import { ProductDetail } from './ProductDetail';
+import { API, ProductRecord } from './types';
 
-// Intialise demo data
-const data = generateData();
+export interface IProductDetailRouteParams {
+    id: string;
+}
 
-export function ProductPage() {
+export function ProductPage(props: ProductPageProps) {
+    let { id } = useParams<IProductDetailRouteParams>();
+    const product: ProductRecord = props.api.getProductById(id) as ProductRecord;
 
-    // Initialize demo data
-    const products = data.products as ProductRecord[];
+    return <ProductDetail product={product} />;
+}
 
-    return (
-        <ProductList products={products} />
-    );
+type ProductPageProps = {
+    api: API
 }
