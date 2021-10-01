@@ -13,11 +13,28 @@ function formatPrice(price: number) {
     );
 }
 
-/*function Product(product: Ressource) {
-    return ()
-        <div>{product.name} - {product.price}</div>
+type Product = {
+    id: number,
+    category_id: number,
+    reference: string,
+    width: number,
+    height: number,
+    price: number,
+    thumbnail: string,
+    image: string,
+    description: string,
+    stock: number
+}
+
+function Product(product: Product) {
+    return (
+        <li>
+            <article className="product-item" itemScope itemType="http://schema.org/Product">
+                {product.reference} - {formatPrice(product.price)}
+            </article>
+        </li>
     );
-}*/
+}
 
 function ProductPage() {
 
@@ -28,12 +45,7 @@ function ProductPage() {
         <div>
             <ul>
                 {products.map((product) => { 
-                    return (
-                        <li>
-                            <article className="product-item" itemScope itemType="http://schema.org/Product">
-                                {product.reference} - {formatPrice(product.price)}
-                            </article>
-                        </li>)
+                    return (<Product {...product}></Product>)
                 })}
             </ul>
         </div>
