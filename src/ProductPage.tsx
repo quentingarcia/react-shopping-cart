@@ -1,19 +1,21 @@
 import * as React from 'react';
 import generateData from 'data-generator-retail';
 
+// Intialise demo data
 const data = generateData();
 
+// Utility function to format price
 function formatPrice(price: number) {    
     return (
-        <span>{new Intl.NumberFormat('fr-FR', {
+        new Intl.NumberFormat('fr-FR', {
             style: 'currency',
             currency: 'EUR'
-        }).format(price)}
-        </span>
+        }).format(price)
     );
 }
 
-type Product = {
+// Product Type declaration
+type ProductRecord = {
     id: number,
     category_id: number,
     reference: string,
@@ -26,30 +28,28 @@ type Product = {
     stock: number
 }
 
-function Product(product: Product) {
+function Product(props: ProductProps) {
     return (
-        <li>
-            <article className="product-item" itemScope itemType="http://schema.org/Product">
-                {product.reference} - {formatPrice(product.price)}
-            </article>
-        </li>
+        <article className="product-item" itemScope itemType="http://schema.org/Product">
+            {props.product.reference} - {formatPrice(props.product.price)}
+        </article>
     );
 }
 
-function ProductPage() {
+type ProductProps = {
+    product: ProductRecord
+}
+
+export function ProductPage() {
 
     // Initialize demo data
-    const products = data.products;
+    const products = data.products as ProductRecord[];
 
     return (
         <div>
             <ul>
-                {products.map((product) => { 
-                    return (<Product {...product}></Product>)
-                })}
+                {products.map((product) => (<li key={product.id}><Product product={product} /></li>))}
             </ul>
         </div>
     );
 }
-
-export default ProductPage;
