@@ -10,7 +10,7 @@ export function ProductDetail(props: ProductDetailProps) {
     return (
         <article className="product-item" itemScope itemType="http://schema.org/Product">
 
-            <div className="max-w-sm bg-white shadow-lg rounded overflow-hidden">
+            <div className="max-w-sm bg-white shadow-lg rounded overflow-hidden m-auto">
                 <img className="w-full" src={product.image} alt={product.reference} />
                 <div className="p-4">
                     <div className="text-gray-900 font-bold text-2xl">{product.reference}</div>
