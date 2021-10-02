@@ -22,7 +22,7 @@ export default function App(props: AppProps) {
       <div className="App">
         <Header />
 
-        <section>
+        <main>
           <Switch>
             <Route path="/product/:id">
               <ProductPage api={api} />
@@ -31,7 +31,7 @@ export default function App(props: AppProps) {
               <ProductsPage api={api} />
             </Route>
           </Switch>
-        </section>
+        </main>
       </div>
     </Router>
   );
