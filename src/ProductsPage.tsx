@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { API, CartItem } from './types';
+import { API } from './types';
 import { ProductList } from './ProductList';
 
 export function ProductsPage(props: ProductsPageProps) {
