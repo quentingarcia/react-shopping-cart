@@ -90,7 +90,7 @@ type HeaderProps = {
 
 const Header = (props: HeaderProps) => {
 
-  const {cart, cartTotal, cartCountProducts, ...rest} = props;
+  const {cart, cartTotal, cartCountProducts} = props;
   const [miniCartOpened, setMiniCartOpened] = useState<boolean>(false);
 
   const handleCartIconClick = () => {

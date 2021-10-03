@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { formatPrice } from "./helpers";
-import { CartItem, ProductRecord } from "./types";
+import { ProductRecord } from "./types";
 
 export function ProductCard(props: ProductProps) {
 

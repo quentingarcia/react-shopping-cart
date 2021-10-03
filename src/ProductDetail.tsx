@@ -3,7 +3,7 @@ import { ProductRecord } from "./types";
 
 export function ProductDetail(props: ProductDetailProps) {
 
-    const { product, handleAddToCart, ...rest } = props;
+    const { product, handleAddToCart } = props;
 
     return (
         <article className="product-item" itemScope itemType="http://schema.org/Product">

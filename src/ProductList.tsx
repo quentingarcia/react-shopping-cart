@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CartItem, ProductRecord } from './types';
+import { ProductRecord } from './types';
 import { ProductCard } from './ProductCard';
 
 export function ProductList(props: ProductListProps) {

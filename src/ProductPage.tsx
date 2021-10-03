@@ -9,7 +9,7 @@ export interface IProductDetailRouteParams {
 
 export function ProductPage(props: ProductPageProps) {
     
-    const {api, handleAddToCart, ...rest} = props;
+    const {api, handleAddToCart} = props;
 
     let { id } = useParams<IProductDetailRouteParams>();
     const product: ProductRecord = api.getProductById(id) as ProductRecord;
