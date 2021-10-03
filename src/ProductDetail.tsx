@@ -3,9 +3,7 @@ import { ProductRecord } from "./types";
 
 export function ProductDetail(props: ProductDetailProps) {
 
-    const { product } = props;
-
-    console.log({product});
+    const { product, handleAddToCart, ...rest } = props;
 
     return (
         <article className="product-item" itemScope itemType="http://schema.org/Product">
@@ -18,7 +16,7 @@ export function ProductDetail(props: ProductDetailProps) {
                 </div>
                 <div className="p-4 flex item-center justify-between mt-3">
                     <h1 className="text-gray-700 font-bold text-xl">{formatPrice(product.price)}</h1>
-                    <button className="px-3 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded">Add to cart</button>
+                    <button onClick={(e) => handleAddToCart(product.id, 1)} className="px-3 py-2 bg-gray-800 text-white text-xs font-bold uppercase rounded">Add to cart</button>
                 </div>
             </div>
         </article>
@@ -26,5 +24,6 @@ export function ProductDetail(props: ProductDetailProps) {
 }
 
 type ProductDetailProps = {
-    product: ProductRecord
+    product: ProductRecord,
+    handleAddToCart: Function
 }

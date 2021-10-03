@@ -11,6 +11,12 @@ export type ProductRecord = {
     stock: number
 }
 
+export type CartItem = {
+    //id: number,
+    product_id: number,
+    quantity: number
+}
+
 export type API = {
     getProductsList: () => ProductRecord[],
     getProductById: (id: string) => ProductRecord
