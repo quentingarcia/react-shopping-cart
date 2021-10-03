@@ -4,11 +4,10 @@ import { ProductList } from './ProductList';
 
 export function ProductsPage(props: ProductsPageProps) {
     return (
-        <ProductList products={props.api.getProductsList()} handleAddToCart={props.handleAddToCart} />
+        <ProductList products={props.api.getProductsList()} />
     );
 }
 
 type ProductsPageProps = {
-    api: API,
-    handleAddToCart: Function
+    api: API
 }
