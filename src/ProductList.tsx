@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { ProductRecord } from './types';
 import { ProductCard } from './ProductCard';
 

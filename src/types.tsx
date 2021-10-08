@@ -18,6 +18,13 @@ export type CartItem = {
 }
 
 export type API = {
-    getProductsList: () => ProductRecord[],
-    getProductById: (id: string) => ProductRecord
+    //getProductsList: () => ProductRecord[],
+    //getProductById: (id: string) => ProductRecord
+    getProductsList: () => Promise<ProductRecord[]>,
+    getProductById: (id: string) => Promise<ProductRecord>
+}
+
+export type SkeletonStyles = {
+    width: string,
+    height: string
 }

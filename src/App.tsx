@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { ProductsPage } from './ProductsPage';
 import { ProductPage } from './ProductPage';
-import { API, CartItem } from './types';
+import { API, CartItem, ProductRecord } from './types';
 import { MiniCart } from './MiniCart';
 import { useCallback, useEffect, useState } from 'react';
 import {getProductsList, getProductById} from './api';
@@ -16,11 +16,11 @@ import './App.css';
 
 const defaultAPI = {getProductsList, getProductById};
 
-const computeCartTotal = (cart: CartItem[]) => {
+const computeCartTotal = (cart: CartItem[], api:API) => {  
   return cart.reduce((total, cartItem) => { 
-    const product = getProductById(cartItem.product_id);
+    const product:Promise<ProductRecord> = api.getProductById(cartItem.product_id.toString());
     return (total + (product.price * cartItem.quantity));
-  }, 0)
+  }, 0);
 }
 
 const computeCartCountProducts = (cart: CartItem[]) => {
@@ -31,57 +31,39 @@ export default function App(props: AppProps) {
 
   const {api = defaultAPI} = props;
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [cartTotal, setCartTotal] = useState(() => computeCartTotal(cart));
+  const [cartTotal, setCartTotal] = useState(() => computeCartTotal(cart, api));
   const [cartCountProducts, setCartCountProducts] = useState(() => computeCartCountProducts(cart));
-  let clickCounter = 0;
 
   const addToCart = useCallback((product_id: number, quantity: number) => {
     setCart((currentCart) => {
-      clickCounter++;
-      let newCart = currentCart.slice();
-      
-      let productAlreadyInCart = newCart.findIndex((item) => (item.product_id === product_id));
-      //console.log({newCart, product_id, quantity, productAlreadyInCart});
+        let indexOfProduct = currentCart.findIndex((item) => (item.product_id === product_id));
 
-      if(productAlreadyInCart > -1) {
-        console.log(newCart[productAlreadyInCart].quantity);
-        document.getElementById('debug').textContent += 'product already in cart [click = '+clickCounter+'] : '+newCart[productAlreadyInCart].quantity.toString()+"\n";
-        newCart[productAlreadyInCart].quantity = newCart[productAlreadyInCart].quantity + quantity;
-        return newCart;
-      } else {
-        document.getElementById('debug').textContent += 'new product [click = '+clickCounter+'] : '+quantity.toString()+"\n";
-        newCart.push({product_id, quantity});
-        //console.log(newCart);
-        return newCart;
-        //return [...newCart, {product_id, quantity}];
-      }
-    })
-  }, [clickCounter]);
+        if(indexOfProduct > -1) {
+          return currentCart.map((item, index) => ({
+            ...item,
+            quantity: index === indexOfProduct ? item.quantity + quantity : item.quantity
+          }));
+        } else {
+          return [...currentCart, {product_id, quantity}];
+        }
+      })
+  }, []);
 
   const cartContext = {
     addItem: addToCart,
   }
 
-  // Called only one time at first render ?
-  /*useEffect(() => {
-    addToCart(1, 1);
-    addToCart(2, 2);
-    addToCart(3, 3);
-  }, []);*/
-
   // Called one time and when cart change
   useEffect(() => {
-    setCartTotal(computeCartTotal(cart));
+    setCartTotal(computeCartTotal(cart, api));
     setCartCountProducts(computeCartCountProducts(cart));
-  }, [cart]);
+  }, [cart, api]);
 
   return (
     <Router>
       <CartContext.Provider value={cartContext}>
       <div className="App">
         <Header cart={cart} cartTotal={cartTotal} cartCountProducts={cartCountProducts} />
-
-        <pre id="debug" className="text-base bg-white py-2 px-4 rounded font-bold bg-red-100 text-red-700"></pre>
 
         <main>
           <Switch>
