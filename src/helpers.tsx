@@ -1,4 +1,4 @@
-// Utility function to format price
+// Utility function to format the price
 export const formatPrice = (price: number) => {    
     return (
         new Intl.NumberFormat('fr-FR', {

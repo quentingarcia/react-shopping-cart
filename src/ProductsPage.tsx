@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { ProductRecord } from './types';
+import { API, ProductRecord } from './types';
 import { ProductList } from './ProductList';
 import { SkeletonItem } from './SkeletonItem';
-import { getProductsList } from './api';
 
-export function ProductsPage() {    
+export function ProductsPage(props: ProductsPageProps) {  
+    const {api} = props;  
     const [isLoading, setLoading] = useState<Boolean>(true);
     const [products, setProducts] = useState<ProductRecord[]>([]);
 
     useEffect(() => {
-        getProductsList().then((response) => {
+        api.getProductsList().then((response) => {
             setProducts(response);
             setLoading(false);
         });
@@ -44,4 +44,8 @@ export function ProductsPage() {
             <ProductList products={products} />
         );
     }
+}
+
+type ProductsPageProps = {
+    api: API
 }
