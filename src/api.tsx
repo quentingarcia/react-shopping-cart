@@ -4,10 +4,22 @@ import { ProductRecord } from './types';
 // Intialise demo data
 const data = generateData();
 
-export function getProductsList() {
-    return data.products as ProductRecord[];
+export const getProductsList = async() => {
+    return new Promise<ProductRecord[]>((resolve, reject) => {
+        setTimeout(() => {
+            resolve(data.products as ProductRecord[]);
+        }, 3000);
+    });
 }
 
-export function getProductById(id: string) {
-    return data.products.find((product) => product.id === parseInt(id)) as ProductRecord;
+export const getProductById = async(id: string|number) => {
+    // If id is a string, convert it to a number
+    // Use case : id from route param is a string
+    id = typeof(id) === 'string' ? parseInt(id) : id;
+
+    return new Promise<ProductRecord>((resolve, reject) => {
+        setTimeout(() => {
+            resolve(data.products.find((product) => product.id === id) as ProductRecord);
+        }, 3000);
+    });
 }
